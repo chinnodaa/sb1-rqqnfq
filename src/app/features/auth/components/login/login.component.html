@@ -1,0 +1,43 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        Sign in to your account
+      </h2>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <mat-form-field class="w-full">
+            <mat-label>Email address</mat-label>
+            <input matInput formControlName="email" type="email" required>
+            <mat-error *ngIf="loginForm.get('email')?.errors?.['required']">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('email')?.errors?.['email']">
+              Please enter a valid email
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="w-full">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('password')?.errors?.['minlength']">
+              Password must be at least 6 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div>
+        <button mat-raised-button color="primary" class="w-full" type="submit" [disabled]="!loginForm.valid">
+          Sign in
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

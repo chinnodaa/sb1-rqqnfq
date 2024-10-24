@@ -1,0 +1,6 @@
+<div class="video-player-container">
+  <video *ngIf="videoUrl" controls class="w-full">
+    <source [src]="videoUrl" type="application/x-mpegURL">
+    Your browser does not support HLS video streaming.
+  </video>
+</div>

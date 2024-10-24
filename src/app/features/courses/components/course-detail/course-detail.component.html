@@ -1,0 +1,75 @@
+<div class="container mx-auto py-8" *ngIf="course$ | async as course">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Course Info -->
+    <div class="lg:col-span-2">
+      <h1 class="text-3xl font-bold mb-4">{{ course.title }}</h1>
+      <p class="text-xl text-gray-600 mb-6">{{ course.description }}</p>
+
+      <div class="flex items-center mb-6">
+        <img [src]="course.instructor.avatar" [alt]="course.instructor.name" 
+             class="w-12 h-12 rounded-full mr-4">
+        <div>
+          <p class="font-semibold">{{ course.instructor.name }}</p>
+          <p class="text-gray-600">Instructor</p>
+        </div>
+      </div>
+
+      <mat-tab-group>
+        <mat-tab label="Curriculum">
+          <div class="py-4">
+            <div *ngFor="let section of course.sections" class="mb-4">
+              <h3 class="text-xl font-semibold mb-2">{{ section.title }}</h3>
+              <div *ngFor="let lecture of section.lectures" 
+                   class="flex items-center p-3 hover:bg-gray-50">
+                <mat-icon>{{ lecture.type === 'video' ? 'play_circle' : 'article' }}</mat-icon>
+                <span class="ml-3">{{ lecture.title }}</span>
+                <span class="ml-auto text-gray-500">{{ lecture.duration }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Overview">
+          <div class="py-4">
+            <h3 class="text-xl font-semibold mb-4">What you'll learn</h3>
+            <ul class="list-disc pl-5 mb-6">
+              <li *ngFor="let point of course.learningPoints" class="mb-2">
+                {{ point }}
+              </li>
+            </ul>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <!-- Course Card -->
+    <div class="lg:col-span-1">
+      <mat-card class="sticky top-8">
+        <img mat-card-image [src]="course.thumbnail" [alt]="course.title">
+        <mat-card-content>
+          <div class="text-3xl font-bold mb-4">${{ course.price }}</div>
+          <ul class="mb-6">
+            <li class="flex items-center mb-2">
+              <mat-icon>access_time</mat-icon>
+              <span class="ml-2">{{ course.duration }} total hours</span>
+            </li>
+            <li class="flex items-center mb-2">
+              <mat-icon>menu_book</mat-icon>
+              <span class="ml-2">{{ course.totalLectures }} lectures</span>
+            </li>
+            <li class="flex items-center mb-2">
+              <mat-icon>signal_cellular_alt</mat-icon>
+              <span class="ml-2">{{ course.level }}</span>
+            </li>
+          </ul>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" class="w-full"
+                  (click)="enrollCourse(course.id, course.price)"
+                  [disabled]="course.enrolled">
+            {{ course.enrolled ? 'Enrolled' : 'Enroll Now' }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
